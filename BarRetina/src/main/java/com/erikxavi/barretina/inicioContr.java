@@ -1,20 +1,10 @@
 package com.erikxavi.barretina;
 
-import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.File;
+import java.io.IOException;
+import static java.lang.System.out;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,16 +15,26 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 
 public class inicioContr implements Initializable {
 
     public Label textoError;
     public StackPane parentContainer;
-
+    public static UtilsWS wsClient;
 
     @FXML
     TextField urlfield;
@@ -49,12 +49,13 @@ public class inicioContr implements Initializable {
             File dataDir = new File(userDir+File.separator+"config");
             File fitxerSortida = new File(dataDir, "CONFIG.XML");
             if (!dataDir.exists() | !fitxerSortida.exists()){
-                if (urlfield.getText().equals("barretina5@ieticloudpro.ieti.cat")){
+                if (urlfield.getText().equals("barretina")){
                     dataDir.mkdir();
                     Document doc = constrDoc();
 
                     guardDoc(doc,fitxerSortida);
                     try {
+                        connectToServer(urlfield.getText());
                         UtilsViews.addView(getClass(), "listasTags", "/com/erikxavi/barretina/assets/listasTags.fxml");
 
                         UtilsViews.setViewAnimating("listasTags");
@@ -67,9 +68,9 @@ public class inicioContr implements Initializable {
                 }
             }
             else {
-                if (urlfield.getText().equals("barretina5@ieticloudpro.ieti.cat")) {
+                if (urlfield.getText().equals("barretina")) {
                     try {
-
+                        connectToServer(urlfield.getText());
                         UtilsViews.addView(getClass(), "listasTags", "/com/erikxavi/barretina/assets/listasTags.fxml");
 
                         UtilsViews.setViewAnimating("listasTags");
@@ -157,4 +158,43 @@ public class inicioContr implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+    public static void connectToServer(String host){
+        String protocol = "wss";
+        wsClient = UtilsWS.getSharedInstance(protocol + "://" + host+".ieti.site:433");
+    
+        wsClient.onMessage(inicioContr::wsMessage);
+        wsClient.onError(inicioContr::wsError);
+    }
+    private static void wsMessage(String response) {
+        JSONObject msgObj = new JSONObject(response);
+        switch (msgObj.getString("type")) {
+            case "ping":
+                String ping = msgObj.getString("message");
+                out.println(ping);
+                break;
+            case "bounce":
+                String msg = msgObj.getString("message");
+                out.println(msg);
+                break;
+            case "products":
+                String products = msgObj.getString("message");
+                System.out.println(products);
+                break;
+            case "tags":
+                String tags = msgObj.getString("message");
+                System.out.println(tags);
+                break;
+        }
+    }
+    private static void wsError(String response) {
+            String connectionRefused = "Connection was refused";
+            Platform.runLater(() -> {
+                out.println(connectionRefused);
+                wsClient = null;
+                out.println("Attempting to reconnect...");
+                connectToServer("barretina5.ieti.site:433");
+            });
+        }
+        
 }
