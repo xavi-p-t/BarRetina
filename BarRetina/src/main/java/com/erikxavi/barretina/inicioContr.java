@@ -56,9 +56,9 @@ public class inicioContr implements Initializable {
                     guardDoc(doc,fitxerSortida);
                     try {
                         connectToServer(urlfield.getText());
-                        UtilsViews.addView(getClass(), "productos", "/com/erikxavi/barretina/assets/productosComanda.fxml");
+                        UtilsViews.addView(getClass(), "listasTags", "/com/erikxavi/barretina/assets/listasTags.fxml");
 
-                        UtilsViews.setViewAnimating("productos");
+                        UtilsViews.setViewAnimating("listasTags");
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -71,9 +71,9 @@ public class inicioContr implements Initializable {
                 if (urlfield.getText().equals("barretina")) {
                     try {
                         connectToServer(urlfield.getText());
-                        UtilsViews.addView(getClass(), "productos", "/com/erikxavi/barretina/assets/productosComanda.fxml");
+                        UtilsViews.addView(getClass(), "listasTags", "/com/erikxavi/barretina/assets/listasTags.fxml");
 
-                        UtilsViews.setViewAnimating("productos");
+                        UtilsViews.setViewAnimating("listasTags");
 
                     } catch (IOException e) {
                         e.printStackTrace();
