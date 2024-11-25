@@ -1,18 +1,26 @@
 package com.erikxavi.barretina;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 
 public class contProd {
     @FXML
-    private Label prod,cant;
+    private Label prod,estado,hora;
 
-    public void setProd(String title) {
+    @FXML
+    private Button detalles;
+
+    public void setMesa(String title) {
         this.prod.setText(title);
     }
 
-    public void setCant(String subtitle) {
-        this.cant.setText(subtitle);
+    public void setEstados(String subtitle) {
+        this.estado.setText(subtitle);
+    }
+
+    public void setHora(String subtitle) {
+        this.hora.setText(subtitle);
     }
 }

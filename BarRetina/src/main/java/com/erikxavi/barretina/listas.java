@@ -19,6 +19,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class listas implements Initializable {
@@ -32,48 +37,47 @@ public class listas implements Initializable {
 
 
 
-    private static String[][] cargarXML(){
+    private String[][] BDtexto() {
+        String url = "jdbc:mysql://localhost:33007/BarRetina";
+        String user = "xavierik";
+        String password = "X@v13r1k";
+        String query = "select id_mesa,estado,Date_Format(fecha_comanda,'%H:%i') as fecha from comanda";
+        String queryCant = "select count(*) as total from comanda";
+        int cant = 0;
 
-        String userDir = System.getProperty("user.dir");
-        //System.out.println(userDir);
-        File dataDir = new File(userDir,"data");
-        //System.out.println(dataDir);
-        File inputFile = new File(dataDir, "PRODUCTES.XML");
-        Document doc = parseXML(inputFile);
-        NodeList prod = doc.getElementsByTagName("producto");
 
-        String[][] lista = new String[prod.getLength()][];
-        for (int i = 0; i < prod.getLength(); i++) {
-            Element productos = (Element) prod.item(i);
-            String nom = productos.getElementsByTagName("nombre").item(0).getTextContent();
-            String cant = "0";
-            lista[i] = new String[]{nom,cant};
-            //System.out.println(lista[i][0]+" "+lista[i][1]);
-        }
-        return lista;
-    }
-    public static Document parseXML(File inputFile) {
+
         try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputFile);
+            Connection connection = DriverManager.getConnection(url, user, password);
+            Statement statement = connection.createStatement();
+            ResultSet rsCant = statement.executeQuery(queryCant);
 
-            doc.getDocumentElement().normalize();
-            System.out.println("Archivo XML cargado correctamente.");
-            return doc;
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
+            while (rsCant.next()){
+                cant = rsCant.getInt("total");
+            }
+
+            ResultSet rs = statement.executeQuery(query);
+
+            String[][] listRes = new String[cant][];
+
+            while (rs.next()) {
+                int i = 0;
+                int idMes = rs.getInt("id_mesa");
+                String estado = rs.getString("estado");
+                String fecha = rs.getString("fecha");
+                System.out.println("Id de la mesa: "+idMes+" estado: "+estado+" fecha: "+fecha);
+                listRes[i] = new String[]{idMes+"",estado,fecha};
+                i++;
+            }
+            return listRes;
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @FXML
-    public void setFXML() throws Exception {
-
-        String[][] list = cargarXML();
+    private void cargarBD() throws IOException {
+        String[][] list = BDtexto();
 
         URL resource = this.getClass().getResource("/com/erikxavi/barretina/assets/productos.fxml");
         System.out.println("Recurso FXML: " + resource);
@@ -91,8 +95,9 @@ public class listas implements Initializable {
             contProd itemController = loader.getController();
 
 
-            itemController.setProd(listElement[0]);
-            itemController.setCant(listElement[1]);
+            itemController.setMesa("Mesa " + listElement[0]);
+            itemController.setEstados(listElement[1]);
+            itemController.setHora(listElement[2]);
 
 
 
@@ -100,13 +105,13 @@ public class listas implements Initializable {
 
         }
         yPane.requestLayout();
-        //System.out.println("Elementos añadidos a yPane: " + yPane.getChildren().size());
+        //System.out.println("Elementos aÃ±adidos a yPane: " + yPane.getChildren().size());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            setFXML();
+            cargarBD();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

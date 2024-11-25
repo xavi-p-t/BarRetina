@@ -13,9 +13,9 @@
             <Font name="Verdana" size="46.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="98.0" text="TAGS" textFill="#cc0000">
+      <Label layoutX="14.0" layoutY="97.0" prefHeight="25.0" prefWidth="88.0" text="COMANDAS" textFill="#cc0000" underline="true">
          <font>
-            <Font name="Verdana Bold Italic" size="12.0" />
+            <Font size="14.0" />
          </font>
       </Label>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="14.0" layoutY="122.0" prefHeight="269.0" prefWidth="577.0" style="-fx-background-color: #424242;" VBox.vgrow="ALWAYS">
