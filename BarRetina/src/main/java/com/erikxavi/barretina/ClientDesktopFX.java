@@ -22,6 +22,7 @@ public class ClientDesktopFX extends Application {
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/erikxavi/barretina/assets/inicioContr.fxml"));
         UtilsViews.addView(getClass(), "inicioContr", "/com/erikxavi/barretina/assets/inicioContr.fxml");
         UtilsViews.addView(getClass(), "listasTags", "/com/erikxavi/barretina/assets/listasTags.fxml");
+        //UtilsViews.addView(getClass(), "productosComanda", "/com/erikxavi/barretina/assets/productosComanda.fxml");
         //UtilsViews.parentContainer.getChildren().add(fxmlLoader.load());
         // Crear la escena con el archivo FXML cargado
         Scene scene = new Scene(UtilsViews.parentContainer);

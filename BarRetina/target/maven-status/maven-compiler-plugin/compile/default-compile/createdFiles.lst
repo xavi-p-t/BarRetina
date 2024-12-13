@@ -1,7 +1,18 @@
 com\erikxavi\barretina\inicioContr.class
+<<<<<<< Updated upstream
 com\erikxavi\barretina\contProd.class
+=======
+>>>>>>> Stashed changes
 com\erikxavi\barretina\UtilsWS.class
 com\erikxavi\barretina\ClientDesktopFX.class
 com\erikxavi\barretina\UtilsViews.class
 com\erikxavi\barretina\listas.class
 com\erikxavi\barretina\UtilsWS$1.class
+<<<<<<< Updated upstream
+=======
+com\erikxavi\barretina\contProd.class
+com\erikxavi\barretina\Productos.class
+com\erikxavi\barretina\GlobalContainerHolder.class
+com\erikxavi\barretina\contenedorGlobal.class
+com\erikxavi\barretina\productDetail.class
+>>>>>>> Stashed changes

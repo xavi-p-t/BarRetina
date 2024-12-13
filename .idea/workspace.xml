@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="26347110-069c-42c7-ad3f-d9269f304b2e" name="Changes" comment="prodDet">
+      <change beforePath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/ClientDesktopFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/ClientDesktopFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/Productos.java" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/Productos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/contProd.java" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/contProd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/listas.java" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/src/main/java/com/erikxavi/barretina/listas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productos.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productos.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productosComanda.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productosComanda.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/src/main/resources/com/erikxavi/barretina/assets/vistaProducto.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/src/main/resources/com/erikxavi/barretina/assets/vistaProducto.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/ClientDesktopFX.class" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/ClientDesktopFX.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/Productos.class" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/Productos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/assets/productos.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/assets/productos.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/assets/productosComanda.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/assets/productosComanda.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/assets/vistaProducto.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/assets/vistaProducto.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/contProd.class" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/contProd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/listas.class" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/classes/com/erikxavi/barretina/listas.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="devXavi" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;xavi-p-t&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/xavi-p-t/DESKTOP.git&quot;,
+    &quot;accountId&quot;: &quot;490a7939-6275-4ffe-952b-65b9f9772e8c&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2pLf4gioHBKPxsonTzZMbx8L5nv" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Dev&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\resources\com\erikxavi\barretina\assets" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="26347110-069c-42c7-ad3f-d9269f304b2e" name="Changes" comment="" />
+      <created>1732550086642</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732550086642</updated>
+    </task>
+    <task id="LOCAL-00001" summary="prodDet">
+      <option name="closed" value="true" />
+      <created>1732637427738</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732637427738</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="prodDet" />
+    <option name="LAST_COMMIT_MESSAGE" value="prodDet" />
+  </component>
+</project>

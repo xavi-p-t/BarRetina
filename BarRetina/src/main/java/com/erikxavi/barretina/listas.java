@@ -32,7 +32,18 @@ public class listas implements Initializable {
 
 
 
+<<<<<<< Updated upstream
     private static String[][] cargarXML(){
+=======
+    private String[][] BDtexto() {
+        String url = "jdbc:mysql://localhost:33007/BarRetina";
+        String user = "xavierik";
+        String password = "X@v13r1k";
+        String query = "select id_mesa,estado,Date_Format(fecha_comanda,'%d/%m %H:%i') as fecha,id_comanda from comanda order by fecha_comanda desc";
+        String queryCant = "select count(*) as total from comanda";
+        int cant = 0;
+
+>>>>>>> Stashed changes
 
         String userDir = System.getProperty("user.dir");
         //System.out.println(userDir);
@@ -58,6 +69,7 @@ public class listas implements Initializable {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
 
+<<<<<<< Updated upstream
             doc.getDocumentElement().normalize();
             System.out.println("Archivo XML cargado correctamente.");
             return doc;
@@ -66,6 +78,27 @@ public class listas implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (SAXException e) {
+=======
+            while (rsCant.next()){
+                cant = rsCant.getInt("total");
+            }
+
+            ResultSet rs = statement.executeQuery(query);
+
+            String[][] listRes = new String[cant][];
+            int i = 0;
+            while (rs.next()) {
+                int idMes = rs.getInt("id_mesa");
+                String estado = rs.getString("estado");
+                String fecha = rs.getString("fecha");
+                int idCom = rs.getInt("id_comanda");
+                //System.out.println("Id de la mesa: "+idMes+" estado: "+estado+" fecha: "+fecha);
+                listRes[i] = new String[]{idMes+"",estado,fecha,idCom+""};
+                i+=1;
+            }
+            return listRes;
+        } catch (SQLException e) {
+>>>>>>> Stashed changes
             throw new RuntimeException(e);
         }
     }
@@ -76,7 +109,7 @@ public class listas implements Initializable {
         String[][] list = cargarXML();
 
         URL resource = this.getClass().getResource("/com/erikxavi/barretina/assets/productos.fxml");
-        System.out.println("Recurso FXML: " + resource);
+//        System.out.println("Recurso FXML: " + resource);
 
 
         yPane.getChildren().clear();
@@ -91,8 +124,15 @@ public class listas implements Initializable {
             contProd itemController = loader.getController();
 
 
+<<<<<<< Updated upstream
             itemController.setProd(listElement[0]);
             itemController.setCant(listElement[1]);
+=======
+            itemController.setMesa("Mesa " + listElement[0]);
+            itemController.setEstados(listElement[1]);
+            itemController.setHora(listElement[2]);
+            itemController.setIdComanda(listElement[3]);
+>>>>>>> Stashed changes
 
 
 

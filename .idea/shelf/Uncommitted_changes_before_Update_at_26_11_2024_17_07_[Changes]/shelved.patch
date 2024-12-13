@@ -1,0 +1,329 @@
+Index: BarRetina/src/main/java/com/erikxavi/barretina/Productos.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.erikxavi.barretina;\r\n\r\nimport javafx.fxml.FXML;\r\nimport javafx.scene.control.ChoiceBox;\r\nimport javafx.scene.control.Label;\r\nimport javafx.scene.layout.VBox;\r\nimport javafx.scene.layout.HBox;\r\nimport javafx.scene.layout.Priority;\r\n\r\npublic class Productos {\r\n\r\n    @FXML\r\n    private VBox yPane;\r\n\r\n    public void initialize() {\r\n        String[] productos = {\"Producto 1\", \"Producto 2\", \"Producto 3\", \"Producto 4\"};\r\n\r\n        String[] estados = {\"Pedido\", \"En preparación\", \"Listo\", \"Pagado\"};\r\n\r\n        yPane.setFillWidth(true);\r\n\r\n        for (String producto : productos) {\r\n            HBox hBox = new HBox(20);\r\n            hBox.setStyle(\"-fx-padding: 10 0 10 0; -fx-border-width: 0 0 1 0; -fx-border-color: white;\"); \r\n            \r\n            Label nombreLabel = new Label(producto);\r\n            nombreLabel.setStyle(\"-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Verdana';\");\r\n            nombreLabel.setMaxWidth(Double.MAX_VALUE); \r\n\r\n            Label precioLabel = new Label(\"10.00 €\");\r\n            precioLabel.setStyle(\"-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Verdana';\");\r\n            precioLabel.setMaxWidth(Double.MAX_VALUE); \r\n\r\n            ChoiceBox<String> estadoBox = new ChoiceBox<>();\r\n            estadoBox.getItems().addAll(estados);\r\n            estadoBox.setValue(\"Pedido\");\r\n            estadoBox.setStyle(\"-fx-background-color: black; -fx-font-size: 14px;\");\r\n            estadoBox.setMaxWidth(Double.MAX_VALUE);\r\n            \r\n            HBox.setHgrow(nombreLabel, Priority.ALWAYS);\r\n            HBox.setHgrow(precioLabel, Priority.ALWAYS);\r\n            HBox.setHgrow(estadoBox, Priority.ALWAYS);\r\n\r\n            hBox.getChildren().addAll(nombreLabel, precioLabel, estadoBox);\r\n\r\n            yPane.getChildren().add(hBox);\r\n        }\r\n\r\n        VBox.setVgrow(yPane, Priority.ALWAYS);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BarRetina/src/main/java/com/erikxavi/barretina/Productos.java b/BarRetina/src/main/java/com/erikxavi/barretina/Productos.java
+--- a/BarRetina/src/main/java/com/erikxavi/barretina/Productos.java	(revision 4c250dcc6f154227f44474c40e71b54ed5497d8b)
++++ b/BarRetina/src/main/java/com/erikxavi/barretina/Productos.java	(date 1732560676397)
+@@ -1,51 +1,121 @@
+ package com.erikxavi.barretina;
+ 
+ import javafx.fxml.FXML;
++import javafx.fxml.FXMLLoader;
++import javafx.scene.Parent;
+ import javafx.scene.control.ChoiceBox;
+ import javafx.scene.control.Label;
+ import javafx.scene.layout.VBox;
+ import javafx.scene.layout.HBox;
+ import javafx.scene.layout.Priority;
+ 
++import java.io.IOException;
++import java.net.URL;
++import java.sql.*;
++
+ public class Productos {
+ 
+     @FXML
+     private VBox yPane;
+ 
+-    public void initialize() {
+-        String[] productos = {"Producto 1", "Producto 2", "Producto 3", "Producto 4"};
++    private String[][] BDtexto() {
++        String url = "jdbc:mysql://localhost:33007/BarRetina";
++        String user = "xavierik";
++        String password = "X@v13r1k";
++        String query = "select comanda from comanda";
++
++
++
++        try {
++            Connection connection = DriverManager.getConnection(url, user, password);
++            Statement statement = connection.createStatement();
++
++            ResultSet rs = statement.executeQuery(query);
+ 
+-        String[] estados = {"Pedido", "En preparación", "Listo", "Pagado"};
++            String comanda = "";
++            while (rs.next()) {
++                comanda = rs.getString("comanda");
++            }
++            String[][] listRes = procesarProductos(comanda);
++            return listRes;
++        } catch (SQLException e) {
++            throw new RuntimeException(e);
++        }
++    }
++    public static String[][] procesarProductos(String input) {
++        String[] productos = input.split(",");
++        int totalFilas = 0;
+ 
+-        yPane.setFillWidth(true);
++        for (String producto : productos) {
++            String[] partes = producto.split(":");
++            if (partes.length == 4) {
++                int cantidad = Integer.parseInt(partes[2]);
++                totalFilas += cantidad;
++            }
++        }
+ 
++
++        String[][] resultado = new String[totalFilas][4];
++
++        int indice = 0;
+         for (String producto : productos) {
+-            HBox hBox = new HBox(20);
+-            hBox.setStyle("-fx-padding: 10 0 10 0; -fx-border-width: 0 0 1 0; -fx-border-color: white;"); 
+-            
+-            Label nombreLabel = new Label(producto);
+-            nombreLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Verdana';");
+-            nombreLabel.setMaxWidth(Double.MAX_VALUE); 
++            String[] partes = producto.split(":");
++
++            if (partes.length == 4) {
++                String nombre = partes[0];
++                String estado = partes[1];
++                int cantidad = Integer.parseInt(partes[2]);
++                double precioTotal = Double.parseDouble(partes[3]);
++                double precioUnitario = precioTotal / cantidad; // Ajusta el precio para cada unidad
+ 
+-            Label precioLabel = new Label("10.00 €");
+-            precioLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: 'Verdana';");
+-            precioLabel.setMaxWidth(Double.MAX_VALUE); 
++                for (int i = 0; i < cantidad; i++) {
++                    resultado[indice][0] = nombre;
++                    resultado[indice][1] = estado;
++                    resultado[indice][2] = "1"; // La cantidad siempre será 1 en las filas
++                    resultado[indice][3] = String.format("%.2f", precioUnitario); // Formatea el precio
++                    indice++;
++                }
++            }
++        }
+ 
+-            ChoiceBox<String> estadoBox = new ChoiceBox<>();
+-            estadoBox.getItems().addAll(estados);
+-            estadoBox.setValue("Pedido");
+-            estadoBox.setStyle("-fx-background-color: black; -fx-font-size: 14px;");
+-            estadoBox.setMaxWidth(Double.MAX_VALUE);
+-            
+-            HBox.setHgrow(nombreLabel, Priority.ALWAYS);
+-            HBox.setHgrow(precioLabel, Priority.ALWAYS);
+-            HBox.setHgrow(estadoBox, Priority.ALWAYS);
++        return resultado;
++    }
++
+ 
+-            hBox.getChildren().addAll(nombreLabel, precioLabel, estadoBox);
++    @FXML
++    private void cargarBD() throws IOException {
++        String[][] list = BDtexto();
+ 
+-            yPane.getChildren().add(hBox);
++        URL resource = this.getClass().getResource("/com/erikxavi/barretina/assets/vistaProducto.fxml");
++        //System.out.println("Recurso FXML: " + resource);
++
++
++        yPane.getChildren().clear();
++
++        //yPane.getChildren().add(new Label("Este es un elemento de prueba"));
++
++        for (String[] listElement : list) {
++
++            //System.out.println(listElement[0]+" "+listElement[1]);
++            FXMLLoader loader = new FXMLLoader(resource);
++            Parent itemTemplate = loader.load();
++            contProd itemCont = loader.getController();
++
++
++
++
++            yPane.getChildren().add(itemTemplate);
++
+         }
++        yPane.requestLayout();
++        //System.out.println("Elementos añadidos a yPane: " + yPane.getChildren().size());
++    }
+ 
+-        VBox.setVgrow(yPane, Priority.ALWAYS);
++    public void initialize() {
++        try {
++            cargarBD();
++        } catch (IOException e) {
++            throw new RuntimeException(e);
++        }
+     }
+ }
+Index: BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>com\\erikxavi\\barretina\\inicioContr.class\r\ncom\\erikxavi\\barretina\\contProd.class\r\ncom\\erikxavi\\barretina\\UtilsWS.class\r\ncom\\erikxavi\\barretina\\ClientDesktopFX.class\r\ncom\\erikxavi\\barretina\\UtilsViews.class\r\ncom\\erikxavi\\barretina\\listas.class\r\ncom\\erikxavi\\barretina\\UtilsWS$1.class\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst b/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+--- a/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst	(revision 4c250dcc6f154227f44474c40e71b54ed5497d8b)
++++ b/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst	(date 1732560714442)
+@@ -1,7 +1,9 @@
+ com\erikxavi\barretina\inicioContr.class
+-com\erikxavi\barretina\contProd.class
+ com\erikxavi\barretina\UtilsWS.class
+ com\erikxavi\barretina\ClientDesktopFX.class
+ com\erikxavi\barretina\UtilsViews.class
+ com\erikxavi\barretina\listas.class
+ com\erikxavi\barretina\UtilsWS$1.class
++com\erikxavi\barretina\contProd.class
++com\erikxavi\barretina\Productos.class
++com\erikxavi\barretina\productDetail.class
+Index: BarRetina/src/main/resources/com/erikxavi/barretina/assets/productos.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.Label?>\r\n<?import javafx.scene.layout.AnchorPane?>\r\n<?import javafx.scene.text.Font?>\r\n\r\n<AnchorPane maxHeight=\"-Infinity\" maxWidth=\"-Infinity\" minHeight=\"-Infinity\" minWidth=\"-Infinity\" prefHeight=\"67.0\" prefWidth=\"547.0\" style=\"-fx-background-color: #424242;\" xmlns=\"http://javafx.com/javafx/22\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.erikxavi.barretina.contProd\">\r\n   <children>\r\n      <Label fx:id=\"prod\" layoutX=\"44.0\" layoutY=\"21.0\" prefHeight=\"25.0\" prefWidth=\"224.0\" text=\"Producto\" textFill=\"#cc0000\">\r\n         <font>\r\n            <Font name=\"Verdana\" size=\"15.0\" />\r\n         </font>\r\n      </Label>\r\n      <Label fx:id=\"cant\" layoutX=\"466.0\" layoutY=\"25.0\" text=\"Cantidad\" textFill=\"WHITE\" />\r\n   </children>\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productos.fxml b/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productos.fxml
+--- a/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productos.fxml	(revision 4c250dcc6f154227f44474c40e71b54ed5497d8b)
++++ b/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productos.fxml	(date 1732550315073)
+@@ -1,16 +1,16 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+-<?import javafx.scene.control.Label?>
+-<?import javafx.scene.layout.AnchorPane?>
+-<?import javafx.scene.text.Font?>
++<?import javafx.scene.control.*?>
++<?import javafx.scene.layout.*?>
++<?import javafx.scene.text.*?>
+ 
+-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="547.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erikxavi.barretina.contProd">
++<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="547.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erikxavi.barretina.contProd">
+    <children>
+-      <Label fx:id="prod" layoutX="44.0" layoutY="21.0" prefHeight="25.0" prefWidth="224.0" text="Producto" textFill="#cc0000">
++      <Label fx:id="mesa" layoutX="44.0" layoutY="21.0" prefHeight="25.0" prefWidth="224.0" text="mesa" textFill="#cc0000">
+          <font>
+             <Font name="Verdana" size="15.0" />
+          </font>
+       </Label>
+-      <Label fx:id="cant" layoutX="466.0" layoutY="25.0" text="Cantidad" textFill="WHITE" />
++      <Label fx:id="hora" layoutX="466.0" layoutY="25.0" text="hora" textFill="WHITE" />
+    </children>
+ </AnchorPane>
+Index: BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>C:\\Users\\xavi\\Documents\\MP06\\DESKTOP\\BarRetina\\src\\main\\java\\com\\erikxavi\\barretina\\ClientDesktopFX.java\r\nC:\\Users\\xavi\\Documents\\MP06\\DESKTOP\\BarRetina\\src\\main\\java\\com\\erikxavi\\barretina\\contProd.java\r\nC:\\Users\\xavi\\Documents\\MP06\\DESKTOP\\BarRetina\\src\\main\\java\\com\\erikxavi\\barretina\\inicioContr.java\r\nC:\\Users\\xavi\\Documents\\MP06\\DESKTOP\\BarRetina\\src\\main\\java\\com\\erikxavi\\barretina\\listas.java\r\nC:\\Users\\xavi\\Documents\\MP06\\DESKTOP\\BarRetina\\src\\main\\java\\com\\erikxavi\\barretina\\UtilsViews.java\r\nC:\\Users\\xavi\\Documents\\MP06\\DESKTOP\\BarRetina\\src\\main\\java\\com\\erikxavi\\barretina\\UtilsWS.java\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst b/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+--- a/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst	(revision 4c250dcc6f154227f44474c40e71b54ed5497d8b)
++++ b/BarRetina/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst	(date 1732560713772)
+@@ -1,6 +1,8 @@
+-C:\Users\xavi\Documents\MP06\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\ClientDesktopFX.java
+-C:\Users\xavi\Documents\MP06\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\contProd.java
+-C:\Users\xavi\Documents\MP06\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\inicioContr.java
+-C:\Users\xavi\Documents\MP06\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\listas.java
+-C:\Users\xavi\Documents\MP06\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\UtilsViews.java
+-C:\Users\xavi\Documents\MP06\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\UtilsWS.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\ClientDesktopFX.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\contProd.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\inicioContr.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\listas.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\productDetail.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\Productos.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\UtilsViews.java
++C:\Users\xavi\Documents\MP09\DESKTOP\BarRetina\src\main\java\com\erikxavi\barretina\UtilsWS.java
+Index: BarRetina/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <groupId>com.erikXavi</groupId>\r\n    <artifactId>BarRetina</artifactId>\r\n    <version>1.0-SNAPSHOT</version>\r\n    <name>BarRetina</name>\r\n\r\n    <properties>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n        <junit.version>5.10.2</junit.version>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.openjfx</groupId>\r\n            <artifactId>javafx-controls</artifactId>\r\n            <version>21</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.openjfx</groupId>\r\n            <artifactId>javafx-fxml</artifactId>\r\n            <version>21</version>\r\n        </dependency>\r\n\r\n         <dependency>\r\n            <groupId>org.java-websocket</groupId>\r\n            <artifactId>Java-WebSocket</artifactId>\r\n            <version>1.5.3</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.json</groupId>\r\n            <artifactId>json</artifactId>\r\n            <version>20240303</version> <!-- This seems to be a future date, please ensure it's the correct version -->\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.junit.jupiter</groupId>\r\n            <artifactId>junit-jupiter-api</artifactId>\r\n            <version>${junit.version}</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.junit.jupiter</groupId>\r\n            <artifactId>junit-jupiter-engine</artifactId>\r\n            <version>${junit.version}</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n    <build>\r\n        <plugins>\r\n            <plugin>\r\n                <groupId>org.apache.maven.plugins</groupId>\r\n                <artifactId>maven-compiler-plugin</artifactId>\r\n                <version>3.13.0</version>\r\n                <configuration>\r\n                    <source>21</source>\r\n                    <target>21</target>\r\n                </configuration>\r\n            </plugin>\r\n            <plugin>\r\n                <groupId>org.openjfx</groupId>\r\n                <artifactId>javafx-maven-plugin</artifactId>\r\n                <version>0.0.8</version>\r\n                <executions>\r\n                    <execution>\r\n                        <!-- Default configuration for running with: mvn clean javafx:run -->\r\n                        <id>default-cli</id>\r\n                        <configuration>\r\n                            <mainClass>com.erikxavi.barretina/com.erikxavi.barretina.ClientDesktopFX</mainClass>\r\n                            <launcher>app</launcher>\r\n                            <jlinkZipName>app</jlinkZipName>\r\n                            <jlinkImageName>app</jlinkImageName>\r\n                            <noManPages>true</noManPages>\r\n                            <stripDebug>true</stripDebug>\r\n                            <noHeaderFiles>true</noHeaderFiles>\r\n                        </configuration>\r\n                    </execution>\r\n                </executions>\r\n            </plugin>\r\n        </plugins>\r\n    </build>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BarRetina/pom.xml b/BarRetina/pom.xml
+--- a/BarRetina/pom.xml	(revision 4c250dcc6f154227f44474c40e71b54ed5497d8b)
++++ b/BarRetina/pom.xml	(date 1732550188463)
+@@ -50,6 +50,13 @@
+             <version>${junit.version}</version>
+             <scope>test</scope>
+         </dependency>
++        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
++        <dependency>
++            <groupId>mysql</groupId>
++            <artifactId>mysql-connector-java</artifactId>
++            <version>8.0.33</version>
++        </dependency>
++
+     </dependencies>
+ 
+     <build>
+Index: BarRetina/target/classes/com/erikxavi/barretina/assets/productos.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.Label?>\r\n<?import javafx.scene.layout.AnchorPane?>\r\n<?import javafx.scene.text.Font?>\r\n\r\n<AnchorPane maxHeight=\"-Infinity\" maxWidth=\"-Infinity\" minHeight=\"-Infinity\" minWidth=\"-Infinity\" prefHeight=\"67.0\" prefWidth=\"547.0\" style=\"-fx-background-color: #424242;\" xmlns=\"http://javafx.com/javafx/22\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.erikxavi.barretina.contProd\">\r\n   <children>\r\n      <Label fx:id=\"prod\" layoutX=\"44.0\" layoutY=\"21.0\" prefHeight=\"25.0\" prefWidth=\"224.0\" text=\"Producto\" textFill=\"#cc0000\">\r\n         <font>\r\n            <Font name=\"Verdana\" size=\"15.0\" />\r\n         </font>\r\n      </Label>\r\n      <Label fx:id=\"cant\" layoutX=\"466.0\" layoutY=\"25.0\" text=\"Cantidad\" textFill=\"WHITE\" />\r\n   </children>\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BarRetina/target/classes/com/erikxavi/barretina/assets/productos.fxml b/BarRetina/target/classes/com/erikxavi/barretina/assets/productos.fxml
+--- a/BarRetina/target/classes/com/erikxavi/barretina/assets/productos.fxml	(revision 4c250dcc6f154227f44474c40e71b54ed5497d8b)
++++ b/BarRetina/target/classes/com/erikxavi/barretina/assets/productos.fxml	(date 1732550315073)
+@@ -1,16 +1,16 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+-<?import javafx.scene.control.Label?>
+-<?import javafx.scene.layout.AnchorPane?>
+-<?import javafx.scene.text.Font?>
++<?import javafx.scene.control.*?>
++<?import javafx.scene.layout.*?>
++<?import javafx.scene.text.*?>
+ 
+-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="547.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erikxavi.barretina.contProd">
++<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="547.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erikxavi.barretina.contProd">
+    <children>
+-      <Label fx:id="prod" layoutX="44.0" layoutY="21.0" prefHeight="25.0" prefWidth="224.0" text="Producto" textFill="#cc0000">
++      <Label fx:id="mesa" layoutX="44.0" layoutY="21.0" prefHeight="25.0" prefWidth="224.0" text="mesa" textFill="#cc0000">
+          <font>
+             <Font name="Verdana" size="15.0" />
+          </font>
+       </Label>
+-      <Label fx:id="cant" layoutX="466.0" layoutY="25.0" text="Cantidad" textFill="WHITE" />
++      <Label fx:id="hora" layoutX="466.0" layoutY="25.0" text="hora" textFill="WHITE" />
+    </children>
+ </AnchorPane>
+Index: BarRetina/src/main/resources/com/erikxavi/barretina/assets/vistaProducto.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.ChoiceBox?>\r\n<?import javafx.scene.control.Label?>\r\n<?import javafx.scene.layout.AnchorPane?>\r\n<?import javafx.scene.text.Font?>\r\n\r\n<AnchorPane maxHeight=\"-Infinity\" maxWidth=\"-Infinity\" minHeight=\"-Infinity\" minWidth=\"-Infinity\" prefHeight=\"84.0\" prefWidth=\"600.0\" style=\"-fx-background-color: #424242; -fx-border-color: white;\" xmlns=\"http://javafx.com/javafx/22\" xmlns:fx=\"http://javafx.com/fxml/1\">\r\n   <children>\r\n      <Label layoutX=\"26.0\" layoutY=\"17.0\" prefHeight=\"50.0\" prefWidth=\"303.0\" text=\"Nombre del Producto\" textFill=\"WHITE\">\r\n         <font>\r\n            <Font name=\"Verdana Bold Italic\" size=\"12.0\" />\r\n         </font>\r\n      </Label>\r\n      <Label layoutX=\"329.0\" layoutY=\"17.0\" prefHeight=\"50.0\" prefWidth=\"97.0\" text=\"Precio\" textFill=\"WHITE\">\r\n         <font>\r\n            <Font name=\"Verdana Bold Italic\" size=\"12.0\" />\r\n         </font>\r\n      </Label>\r\n      <ChoiceBox layoutX=\"426.0\" layoutY=\"17.0\" prefHeight=\"50.0\" prefWidth=\"150.0\" style=\"-fx-background-color: black;\" value=\"Pedido\" />\r\n   </children>\r\n</AnchorPane>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/BarRetina/src/main/resources/com/erikxavi/barretina/assets/vistaProducto.fxml b/BarRetina/src/main/resources/com/erikxavi/barretina/assets/vistaProducto.fxml
+--- a/BarRetina/src/main/resources/com/erikxavi/barretina/assets/vistaProducto.fxml	(revision 4c250dcc6f154227f44474c40e71b54ed5497d8b)
++++ b/BarRetina/src/main/resources/com/erikxavi/barretina/assets/vistaProducto.fxml	(date 1732557215031)
+@@ -5,18 +5,18 @@
+ <?import javafx.scene.layout.AnchorPane?>
+ <?import javafx.scene.text.Font?>
+ 
+-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="84.0" prefWidth="600.0" style="-fx-background-color: #424242; -fx-border-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
++<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="84.0" prefWidth="600.0" style="-fx-background-color: #424242; -fx-border-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erikxavi.barretina.productDetail">
+    <children>
+-      <Label layoutX="26.0" layoutY="17.0" prefHeight="50.0" prefWidth="303.0" text="Nombre del Producto" textFill="WHITE">
++      <Label fx:id="prod" layoutX="26.0" layoutY="17.0" prefHeight="50.0" prefWidth="303.0" text="Nombre del Producto" textFill="WHITE">
+          <font>
+             <Font name="Verdana Bold Italic" size="12.0" />
+          </font>
+       </Label>
+-      <Label layoutX="329.0" layoutY="17.0" prefHeight="50.0" prefWidth="97.0" text="Precio" textFill="WHITE">
++      <Label fx:id="precio" layoutX="329.0" layoutY="17.0" prefHeight="50.0" prefWidth="97.0" text="Precio" textFill="WHITE">
+          <font>
+             <Font name="Verdana Bold Italic" size="12.0" />
+          </font>
+       </Label>
+-      <ChoiceBox layoutX="426.0" layoutY="17.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: black;" value="Pedido" />
++      <ChoiceBox fx:id="despl" layoutX="426.0" layoutY="17.0" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: black;" value="Pedido" />
+    </children>
+ </AnchorPane>
+diff --git a/BarRetina/src/main/resources/com/erikxavi/barretina/productosComanda.fxml b/BarRetina/src/main/resources/com/erikxavi/barretina/assets/productosComanda.fxml
+rename from BarRetina/src/main/resources/com/erikxavi/barretina/productosComanda.fxml
+rename to BarRetina/src/main/resources/com/erikxavi/barretina/assets/productosComanda.fxml

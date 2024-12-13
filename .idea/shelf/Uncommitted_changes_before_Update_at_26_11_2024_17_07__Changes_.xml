@@ -1,0 +1,39 @@
+<changelist name="Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]" date="1732637273205" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 26/11/2024 17:07 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/contProd.class" />
+    <option name="AFTER_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/contProd.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/contProd.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/UtilsWS.class" />
+    <option name="AFTER_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/UtilsWS.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/UtilsWS.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/inicioContr.class" />
+    <option name="AFTER_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/inicioContr.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/inicioContr.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/UtilsViews.class" />
+    <option name="AFTER_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/UtilsViews.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/UtilsViews.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/UtilsWS$1.class" />
+    <option name="AFTER_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/UtilsWS$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/UtilsWS$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/ClientDesktopFX.class" />
+    <option name="AFTER_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/ClientDesktopFX.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/ClientDesktopFX.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/listas.class" />
+    <option name="AFTER_PATH" value="BarRetina/target/classes/com/erikxavi/barretina/listas.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_11_2024_17_07_[Changes]/listas.class" />
+  </binary>
+</changelist>
